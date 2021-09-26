@@ -1,0 +1,13 @@
+// Aquest document hi consta tota la documentació del puzzle 1
+// ENCARA ES UN BORRADOR. FALTA POSAR-HO TOT. DE MOMENT NOMÉS HI HA LLISTA DE COMMANDS EXECUTATS.
+
+
+sudo raspi-config -> Activar I2C
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install python-smbus
+sudo i2cdetect -y 1 -> Para saber la direccion de I2C
+Llibreria DenisFromHR 
+
+Problema amb capturar text pel teclat
+Utilitzava python 2 en comptes de 3.
