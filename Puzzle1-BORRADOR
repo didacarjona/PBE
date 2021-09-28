@@ -11,3 +11,21 @@ Llibreria DenisFromHR
 
 Problema amb capturar text pel teclat
 Utilitzava python 2 en comptes de 3.
+
+
+import I2C_LCD_driver
+
+mylcd = I2C_LCD_driver.lcd()
+
+print("Introdueix un text. Per canviar de linea prem enter. Per acabar fes ctrl+D: ")
+contents = []
+while True:
+    try:
+        line = input()
+    except EOFError:
+        break
+    contents.append(line)
+number = len(contents)
+for i in range(0, number):
+
+        mylcd.lcd_display_string(contents[i], i+1)
