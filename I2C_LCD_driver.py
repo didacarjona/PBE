@@ -158,19 +158,11 @@ class lcd:
     for char in string:
       self.lcd_write(ord(char), Rs)
 
-   # ask the user to enter text to display on the LCD. Ends when user hit ctrl+D
-   def ask_text_multiline(self):
-       print("Introdueix un text. Per canviar de linea prem enter. Per acabar fes ctrl+D: ")
-       contents = []
-       while True:
-           try:
-               line = input()
-           except EOFError:
-               break
-           contents.append(line)
-       number = len(contents)
+   # Write into the LCD a multiline string
+   def write_text_multiline(self, text):
+       number = len(text)
        for i in range(0, number):
-           self.lcd_display_string(contents[i], i+1)
+           self.lcd_display_string(text[i], i+1)
 
    # clear lcd and set to home
    def lcd_clear(self):
