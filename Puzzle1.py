@@ -7,7 +7,6 @@ from time import *
 
 mylcd = I2C_LCD_driver.lcd()
 
-
 print("Introdueix un text. Per canviar de linea prem enter. Per acabar fes ctrl+D: ")
 contents = []
 while True:
@@ -16,6 +15,6 @@ while True:
    except EOFError:
        break
    contents.append(line)
-
 mylcd.write_text_multiline(contents)
+
 
