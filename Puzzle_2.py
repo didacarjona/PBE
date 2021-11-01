@@ -1,3 +1,13 @@
+'''Codi en Python del puzzle 2 LCD. S'ha dissenyat tenint en compte els següents aspectes:
+1. L'usuari pot escriure més de 4 línies. LCD només en té 4.
+2. Es pot escriure varies línies sense "\n", cosa que el text buffer no reconeix.
+3. Que no estigui connectada l'LCD quan s'arranqui el programa o durant l'execució
+
+M'he anticipat a l'usuari solventat aquests problemes
+
+També té una petita modificació en CSS, tot i que el puzzle per la LCD no té molt a oferir
+en quant estilitzat CSS.'''
+
 import gi
 import textwrap
 from LCD_PBE import I2C_LCD_driver
