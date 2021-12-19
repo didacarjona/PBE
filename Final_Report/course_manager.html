@@ -1,0 +1,88 @@
+<?php
+  session_start();
+  if(isset($_POST['name']) AND empty($_SESSION["student_id"])) {
+    $name = $_POST['name'];
+    $student_id = $_POST['student_id'];
+    include("login.php");    
+  } elseif(isset($_POST['query'])) {
+    $consulta = $_POST['query'];
+    if(!strpos($consulta, "?")){
+        $consulta .= "?";
+    }
+    $consulta .= "&student_id=";
+    $consulta .= $_SESSION["student_id"];
+    include("dbconsult.php");
+  }
+?>
+
+<!-- CODIGO HTML -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="course_manager.css">
+</head>
+
+<?php if(empty($_SESSION["student_id"])) { ?>
+
+<body>
+<div class="title-course-manager">
+    <h2>Welcome to Course Manager</h2>
+</div>
+<form method="post" action="" >
+    <div class="form-element">
+        <label>Username:</label>
+        <input type="text" name="name" required />
+    </div>
+    <div class="form-element">
+        <label>Password:</label>
+        <input type="password" name="student_id" required />
+    </div>
+    <button type="submit">Log In</button>
+</form>
+</body>
+
+<?php } else { ?>
+
+<form id="landing_form" method="post" action="">
+<div class="landing_container">
+<div>
+<span>Welcome:</span>
+<span id="name"> <?php echo $_SESSION['name'];?> </span>
+</div>
+<div>
+<a href="logout.php">Logout</a>
+</div>
+</div>
+
+<div class="landing_container">
+<input type="text" id="query" name="query">
+<button type="submit">Send</button>
+</div>
+<?php if(count($emparray) != 0) { ?>
+<?php $column = array_keys($emparray[0]); ?>
+<div class="title-course-manager">
+<h2><?php echo $phpfile?></h2>
+</div>
+<div class="table_container">
+<table>
+<tr>
+  <?php foreach($column as $val) { ?>
+  <th><?php echo $val; ?></th>
+  <?php } ?>
+</tr>
+<?php foreach($emparray as $row2) { ?>
+<tr>
+  <?php foreach($row2 as $val) { ?>
+  <td>
+  <?php echo $val; ?>
+  </td>
+  <?php } ?>
+</tr>
+<?php } ?>
+</table>
+</div>
+<?php } ?>
+</form>
+<?php } ?> 
+</html>

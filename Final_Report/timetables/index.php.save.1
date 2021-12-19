@@ -1,0 +1,61 @@
+<?php
+	require_once '../dbconfig.php';
+	parse_str($_SERVER['QUERY_STRING'],$variables);
+	$query = "SELECT `day`,`hour`,`subject`,`room` FROM timetables WHERE `student_id`='{$variables[student_id]}'";	
+	foreach($variables as $key => $val) {
+		if($key != "limit" AND $key != "student_id" AND !is_array($val)) {
+
+			if($key ==  "day" AND (in_array("hour[gt]",$variables))){
+				$query .= " AND day >= DAYOF{$val}";
+
+			} else {
+				$query .= " AND {$key}='{$val}'";
+			}
+		} elseif(is_array($val)) {
+
+			$keys = array_keys($val);
+			switch ($keys[0]) {
+
+				case "gt":
+				  $query .= " AND {$key} > '{$val[gt]}'";
+				  $limit = "true";
+				  break;
+
+				case "lt":
+				  $query .= " AND {$key} < '{$val[lt]}'";
+				  $limit = "true";
+				  break;
+
+				case "gte":
+				  $query .= " AND {$key} >= '{$val[gte]}'";
+				  $limit = "true";
+				  break;
+
+				case "lte":
+				  $query .= " AND {$key} <= '{$val[lte]}'";
+				  $limit = "true";
+				  break; 
+			}
+
+		}
+	}
+	if($limit != "true") {
+		$query .= " ORDER BY CASE WHEN (day_week = DAYOFWEEK(CURDATE())-1 AND hour < CURRENT_TIME) THEN day_week + 7";
+		$query .= " WHEN (day_week - DAYOFWEEK(CURDATE())+1 < 0) THEN day_week + DAYOFWEEK(CURDATE())";
+		$query .= " ELSE (day_week - DAYOFWEEK(CURDATE())) END";
+	}
+	if(array_key_exists("limit",$variables)) {
+		$query .= " LIMIT {$variables[limit]}";
+	} else if($limit == "true") {
+		$query .= " LIMIT 1";
+	}
+
+	$result = mysqli_query($connection, $query) or die("Error in Selecting " . mysqli_error($connection));
+	$emparray = array();
+	while($row =mysqli_fetch_assoc($result)) {
+        	$emparray[] = $row;
+	}
+
+	echo json_encode(['timetables' => $emparray]);
+	mysqli_close($connection);
+?>

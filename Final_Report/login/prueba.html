@@ -1,0 +1,40 @@
+<?php
+  if(isset($_POST['name'])) {
+    echo "Hola bro";
+    $name = $_POST['name'];
+    $student_id = $_POST['student_id'];
+    include('index.php');
+  }
+?>
+
+
+<!-- CODIGO HTML -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="login.css">
+</head>
+
+<?php if(empty($_POST["name"])) { ?>
+
+<body>
+<div class="title-course-manager">
+    <h2>Welcome to Course Manager</h2>
+</div>
+<form method="post" action="" >
+    <div class="form-element">
+        <label>Username:</label>
+        <input type="text" name="name" required />
+    </div>
+    <div class="form-element">
+        <label>Password:</label>
+        <input type="password" name="student_id" required />
+    </div>
+    <button type="submit">Log In</button>
+</form>
+</body>
+
+<?php } ?>
+
+</html>
